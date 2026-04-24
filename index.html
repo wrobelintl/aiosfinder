@@ -98,6 +98,21 @@
     <p>Calculate ROI, assess readiness, identify risks, and build the business case for AI. Everything a consultant needs for a discovery call. Free forever.</p>
   </div>
 
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-bottom:2rem">
+    <div style="background:white;border:2px solid #2563eb;border-radius:10px;padding:1rem;text-align:center;cursor:pointer" onclick="switchTab('roi',document.querySelector('.tab'))">
+      <div style="font-weight:800;color:#2563eb;margin-bottom:0.25rem">Before You Hire</div>
+      <div style="font-size:0.8rem;color:#64748b">ROI Calculator, Readiness Score, Opportunity Audit, Use Case Generator</div>
+    </div>
+    <div style="background:white;border:2px solid #7c3aed;border-radius:10px;padding:1rem;text-align:center">
+      <div style="font-weight:800;color:#7c3aed;margin-bottom:0.25rem">During Discovery</div>
+      <div style="font-size:0.8rem;color:#64748b">90-Day Planner, Risk Assessment, Skills Gap Identifier</div>
+    </div>
+    <div style="background:white;border:2px solid #059669;border-radius:10px;padding:1rem;text-align:center">
+      <div style="font-weight:800;color:#059669;margin-bottom:0.25rem">Making the Decision</div>
+      <div style="font-size:0.8rem;color:#64748b">Vendor Comparison Scorecard</div>
+    </div>
+  </div>
+
   <div class="tabs">
     <button class="tab active" onclick="switchTab('roi', this)">ROI Calculator</button>
     <button class="tab" onclick="switchTab('readiness', this)">Readiness Score</button>
