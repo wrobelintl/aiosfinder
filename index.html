@@ -75,7 +75,7 @@
 
 <header>
   <div>
-    <h1>🔧 AIOS Finder — Free AI Tools</h1>
+    <h1> AIOS Finder — Free AI Tools</h1>
     <p>Built for AI consultants and the businesses they serve</p>
   </div>
   <a href="https://verifiedaiconsultants.com" class="header-link">Find an AI Consultant →</a>
@@ -88,14 +88,14 @@
   </div>
 
   <div class="tabs">
-    <button class="tab active" onclick="switchTab('roi', this)">💰 AI ROI Calculator</button>
-    <button class="tab" onclick="switchTab('readiness', this)">📊 AI Readiness Score</button>
-    <button class="tab" onclick="switchTab('audit', this)">🔍 AI Opportunity Audit</button>
+    <button class="tab active" onclick="switchTab('roi', this)"> AI ROI Calculator</button>
+    <button class="tab" onclick="switchTab('readiness', this)"> AI Readiness Score</button>
+    <button class="tab" onclick="switchTab('audit', this)"> AI Opportunity Audit</button>
   </div>
 
   <!-- ROI CALCULATOR -->
   <div class="tool-panel active" id="roi">
-    <h3>💰 AI ROI Calculator</h3>
+    <h3> AI ROI Calculator</h3>
     <p class="tool-desc">Calculate the 4-layer return on investment for an AI implementation. Based on the proven framework used by top AIOS consultants. Show clients exactly what AI is worth in dollars.</p>
 
     <div class="input-grid">
@@ -154,7 +154,7 @@
 
   <!-- READINESS SCORE -->
   <div class="tool-panel" id="readiness">
-    <h3>📊 AI Readiness Assessment</h3>
+    <h3> AI Readiness Assessment</h3>
     <p class="tool-desc">Score your business's readiness for AI implementation. Answer 6 quick questions to get your AI Readiness Score and a personalized action plan.</p>
 
     <div class="question">
@@ -232,7 +232,7 @@
 
   <!-- OPPORTUNITY AUDIT -->
   <div class="tool-panel" id="audit">
-    <h3>🔍 AI Opportunity Audit</h3>
+    <h3> AI Opportunity Audit</h3>
     <p class="tool-desc">Identify the top AI opportunities in your business. Select which tasks your team does regularly — we'll show you where AI can have the biggest impact.</p>
 
     <p style="font-size:0.9rem;font-weight:600;color:#374151;margin-bottom:0.75rem">Select all tasks your team does regularly:</p>
@@ -272,12 +272,12 @@ function switchTab(id, btn) {
 
 // ROI CALCULATOR
 function calculateROI() {
-  const emp = parseFloat(document.getElementById('empCount').value) || 0;
-  const wage = parseFloat(document.getElementById('hourlyWage').value) || 0;
-  const hours = parseFloat(document.getElementById('hoursSaved').value) || 0;
-  const cost = parseFloat(document.getElementById('costSavings').value) || 0;
-  const mistakes = parseFloat(document.getElementById('mistakesPrevented').value) || 0;
-  const revenue = parseFloat(document.getElementById('newRevenue').value) || 0;
+  const emp = parseFloat(document.getElementById('empCount').value)  0;
+  const wage = parseFloat(document.getElementById('hourlyWage').value)  0;
+  const hours = parseFloat(document.getElementById('hoursSaved').value)  0;
+  const cost = parseFloat(document.getElementById('costSavings').value)  0;
+  const mistakes = parseFloat(document.getElementById('mistakesPrevented').value)  0;
+  const revenue = parseFloat(document.getElementById('newRevenue').value)  0;
 
   const r1 = emp * hours * wage * 52;
   const r2 = cost * 12;
@@ -306,7 +306,7 @@ function selectOpt(el, key, val) {
 
 function calcReadiness() {
   const keys = ['rep','data','tech','budget','problem','exp'];
-  const total = keys.reduce((sum, k) => sum + (readinessAnswers[k] || 0), 0);
+  const total = keys.reduce((sum, k) => sum + (readinessAnswers[k]  0), 0);
   const max = 30;
   const pct = Math.round((total / max) * 100);
   const score = Math.round((total / max) * 10 * 10) / 10;
