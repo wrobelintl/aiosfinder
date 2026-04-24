@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AIOS Finder — Free AI Tools for Consultants & Businesses</title>
-  <meta name="description" content="Free AI tools for consultants and businesses. AI ROI Calculator, AI Readiness Assessment, Workflow Mapper and more. Built for AIOS implementers.">
-  <meta name="keywords" content="AI ROI calculator, AI readiness assessment, AIOS tools, AI consultant tools, free AI tools, AI implementation tools">
+  <meta name="description" content="Free AI tools for consultants and businesses. AI ROI Calculator, AI Readiness Assessment, Use Case Generator, Risk Assessment, Skills Gap Identifier and more. Built for AIOS implementers.">
+  <meta name="keywords" content="AI ROI calculator, AI readiness assessment, AI use case generator, AI risk assessment, AIOS tools, AI consultant tools, free AI tools">
   <link rel="canonical" href="https://aiosfinder.com/">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -15,255 +15,299 @@
     header p { font-size: 0.82rem; color: #94a3b8; margin-top: 0.1rem; }
     .header-link { color: #60a5fa; font-size: 0.85rem; text-decoration: none; font-weight: 600; }
     main { max-width: 900px; margin: 2rem auto; padding: 0 1rem 4rem; }
-    .intro { text-align: center; margin-bottom: 2.5rem; }
+    .intro { text-align: center; margin-bottom: 2rem; }
     .intro h2 { font-size: 1.5rem; font-weight: 800; color: #0f172a; margin-bottom: 0.5rem; }
     .intro p { color: #64748b; font-size: 0.95rem; max-width: 560px; margin: 0 auto; line-height: 1.6; }
-
-    /* TOOL TABS */
-    .tabs { display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap; margin-bottom: 2rem; }
-    .tab { padding: 0.5rem 1.1rem; border-radius: 99px; border: 2px solid #e2e8f0; background: white; font-size: 0.85rem; font-weight: 600; cursor: pointer; color: #64748b; transition: all 0.15s; }
+    .tool-count { display: inline-block; background: #2563eb; color: white; font-size: 0.78rem; font-weight: 700; padding: 0.2rem 0.7rem; border-radius: 99px; margin-bottom: 1rem; }
+    .tabs { display: flex; gap: 0.4rem; justify-content: center; flex-wrap: wrap; margin-bottom: 2rem; }
+    .tab { padding: 0.45rem 0.9rem; border-radius: 99px; border: 2px solid #e2e8f0; background: white; font-size: 0.8rem; font-weight: 600; cursor: pointer; color: #64748b; transition: all 0.15s; }
     .tab.active { background: #2563eb; border-color: #2563eb; color: white; }
-
-    /* TOOL CARD */
     .tool-panel { display: none; background: white; border-radius: 16px; padding: 2rem; box-shadow: 0 2px 16px rgba(0,0,0,0.06); margin-bottom: 1.5rem; }
     .tool-panel.active { display: block; }
     .tool-panel h3 { font-size: 1.1rem; font-weight: 800; color: #0f172a; margin-bottom: 0.35rem; }
-    .tool-panel .tool-desc { color: #64748b; font-size: 0.9rem; margin-bottom: 1.5rem; line-height: 1.5; }
+    .tool-desc { color: #64748b; font-size: 0.9rem; margin-bottom: 1.5rem; line-height: 1.5; }
     label { display: block; font-size: 0.85rem; font-weight: 600; color: #374151; margin-bottom: 0.35rem; margin-top: 1rem; }
-    input[type=number], input[type=text], select {
+    input[type=number], input[type=text], select, textarea {
       width: 100%; padding: 0.65rem 0.9rem; border: 1.5px solid #e2e8f0; border-radius: 8px;
-      font-size: 0.95rem; color: #1e293b; outline: none; transition: border-color 0.2s;
+      font-size: 0.95rem; color: #1e293b; outline: none; transition: border-color 0.2s; font-family: inherit;
     }
-    input:focus, select:focus { border-color: #2563eb; }
+    input:focus, select:focus, textarea:focus { border-color: #2563eb; }
     .input-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
     @media(max-width: 600px) { .input-grid { grid-template-columns: 1fr; } }
-    .calc-btn { margin-top: 1.5rem; width: 100%; padding: 0.85rem; background: #2563eb; color: white; border: none; border-radius: 10px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: background 0.2s; }
+    .calc-btn { margin-top: 1.5rem; width: 100%; padding: 0.85rem; background: #2563eb; color: white; border: none; border-radius: 10px; font-size: 1rem; font-weight: 700; cursor: pointer; }
     .calc-btn:hover { background: #1d4ed8; }
-    .result-box { margin-top: 1.5rem; background: #f0f9ff; border: 1px solid #bae6fd; border-radius: 10px; padding: 1.25rem; display: none; }
-    .result-box.show { display: block; }
+    .result-box { margin-top: 1.5rem; background: #f0f9ff; border: 1px solid #bae6fd; border-radius: 10px; padding: 1.25rem; }
     .result-row { display: flex; justify-content: space-between; align-items: center; padding: 0.5rem 0; border-bottom: 1px solid #e0f2fe; font-size: 0.9rem; }
     .result-row:last-child { border-bottom: none; }
     .result-label { color: #0369a1; font-weight: 600; }
-    .result-value { font-weight: 800; color: #0f172a; font-size: 1rem; }
+    .result-value { font-weight: 800; color: #0f172a; }
     .result-total { background: #2563eb; color: white; border-radius: 8px; padding: 1rem; text-align: center; margin-top: 1rem; }
     .result-total .total-label { font-size: 0.82rem; opacity: 0.85; margin-bottom: 0.25rem; }
     .result-total .total-value { font-size: 1.8rem; font-weight: 800; }
-
-    /* READINESS */
     .question { margin-bottom: 1.25rem; }
     .question p { font-size: 0.9rem; font-weight: 600; color: #1e293b; margin-bottom: 0.5rem; }
     .options { display: flex; gap: 0.5rem; flex-wrap: wrap; }
     .opt { padding: 0.4rem 0.9rem; border-radius: 99px; border: 1.5px solid #e2e8f0; background: white; font-size: 0.82rem; cursor: pointer; font-weight: 500; color: #64748b; transition: all 0.15s; }
     .opt.selected { background: #2563eb; border-color: #2563eb; color: white; }
-    .score-display { display: none; }
-    .score-display.show { display: block; }
     .score-meter { height: 12px; background: #e2e8f0; border-radius: 99px; overflow: hidden; margin: 0.75rem 0; }
     .score-bar { height: 100%; border-radius: 99px; transition: width 0.6s ease; }
-
-    /* LINKS */
+    .risk-item { display: flex; align-items: center; justify-content: space-between; padding: 0.75rem 0; border-bottom: 1px solid #f1f5f9; gap: 1rem; }
+    .risk-label { font-size: 0.88rem; font-weight: 600; color: #1e293b; flex: 1; }
+    .risk-slider { width: 140px; }
+    .risk-val { font-size: 0.85rem; font-weight: 700; width: 20px; text-align: center; }
+    .opp-item { padding: 0.75rem; background: #f0f9ff; border-radius: 8px; margin-bottom: 0.5rem; border-left: 3px solid #2563eb; }
+    .opp-title { font-weight: 700; font-size: 0.9rem; color: #0f172a; }
+    .opp-desc { font-size: 0.82rem; color: #64748b; margin-top: 0.2rem; }
+    .plan-phase { background: white; border: 1px solid #e2e8f0; border-radius: 10px; padding: 1rem; margin-bottom: 0.75rem; }
+    .plan-phase-title { font-weight: 800; font-size: 0.92rem; color: #2563eb; margin-bottom: 0.5rem; }
+    .plan-item { font-size: 0.85rem; color: #374151; padding: 0.2rem 0; padding-left: 1rem; position: relative; }
+    .plan-item::before { content: "-"; position: absolute; left: 0; color: #94a3b8; }
+    .vendor-row { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 0.5rem; align-items: center; padding: 0.5rem 0; border-bottom: 1px solid #f1f5f9; }
+    .vendor-crit { font-size: 0.85rem; font-weight: 600; color: #374151; }
+    .vendor-score { text-align: center; }
     .cta-bar { background: #1e3a5f; color: white; border-radius: 12px; padding: 1.5rem; text-align: center; margin-top: 2rem; }
     .cta-bar h3 { font-size: 1rem; font-weight: 700; margin-bottom: 0.4rem; }
     .cta-bar p { color: #94a3b8; font-size: 0.85rem; margin-bottom: 1rem; }
     .cta-bar a { display: inline-block; background: #2563eb; color: white; text-decoration: none; padding: 0.6rem 1.25rem; border-radius: 8px; font-size: 0.9rem; font-weight: 700; margin: 0.25rem; }
     .cta-bar a.alt { background: transparent; border: 1.5px solid #475569; }
-
     footer { text-align: center; padding: 1.5rem; color: #94a3b8; font-size: 0.8rem; }
     footer a { color: #94a3b8; margin: 0 0.5rem; }
+    .checklist-item { display: flex; align-items: flex-start; gap: 0.75rem; padding: 0.6rem 0; border-bottom: 1px solid #f1f5f9; }
+    .checklist-cb { margin-top: 2px; width: 16px; height: 16px; flex-shrink: 0; cursor: pointer; }
+    .checklist-text { font-size: 0.88rem; color: #374151; }
+    .checklist-badge { display: inline-block; font-size: 0.7rem; font-weight: 700; padding: 0.1rem 0.45rem; border-radius: 4px; margin-left: 0.4rem; }
+    .badge-critical { background: #fee2e2; color: #dc2626; }
+    .badge-high { background: #fef3c7; color: #d97706; }
+    .badge-medium { background: #dbeafe; color: #2563eb; }
   </style>
 </head>
 <body>
 
 <header>
   <div>
-    <h1> AIOS Finder — Free AI Tools</h1>
-    <p>Built for AI consultants and the businesses they serve</p>
+    <h1>AIOS Finder - Free AI Tools</h1>
+    <p>8 free tools for AI consultants and the businesses they serve</p>
   </div>
-  <a href="https://verifiedaiconsultants.com" class="header-link">Find an AI Consultant →</a>
+  <a href="https://verifiedaiconsultants.com" class="header-link">Find an AI Consultant</a>
 </header>
 
 <main>
   <div class="intro">
-    <h2>Free Tools for AI Consultants & Their Clients</h2>
-    <p>Calculate ROI, assess AI readiness, and build the business case for AI implementation. Free to use, no sign-up required.</p>
+    <div class="tool-count">8 Free Tools — No Sign-Up Required</div>
+    <h2>Free Tools for AI Consultants and Their Clients</h2>
+    <p>Calculate ROI, assess readiness, identify risks, and build the business case for AI. Everything a consultant needs for a discovery call. Free forever.</p>
   </div>
 
   <div class="tabs">
-    <button class="tab active" onclick="switchTab('roi', this)"> AI ROI Calculator</button>
-    <button class="tab" onclick="switchTab('readiness', this)"> AI Readiness Score</button>
-    <button class="tab" onclick="switchTab('audit', this)"> AI Opportunity Audit</button>
+    <button class="tab active" onclick="switchTab('roi', this)">ROI Calculator</button>
+    <button class="tab" onclick="switchTab('readiness', this)">Readiness Score</button>
+    <button class="tab" onclick="switchTab('audit', this)">Opportunity Audit</button>
+    <button class="tab" onclick="switchTab('usecase', this)">Use Case Generator</button>
+    <button class="tab" onclick="switchTab('planner', this)">90-Day Planner</button>
+    <button class="tab" onclick="switchTab('risk', this)">Risk Assessment</button>
+    <button class="tab" onclick="switchTab('skills', this)">Skills Gap</button>
+    <button class="tab" onclick="switchTab('vendor', this)">Vendor Scorecard</button>
   </div>
 
   <!-- ROI CALCULATOR -->
   <div class="tool-panel active" id="roi">
-    <h3> AI ROI Calculator</h3>
-    <p class="tool-desc">Calculate the 4-layer return on investment for an AI implementation. Based on the proven framework used by top AIOS consultants. Show clients exactly what AI is worth in dollars.</p>
-
+    <h3>AI ROI Calculator</h3>
+    <p class="tool-desc">Calculate the 4-layer return on investment for an AI implementation. Show clients exactly what AI is worth in dollars before they commit.</p>
     <div class="input-grid">
-      <div>
-        <label>Number of employees affected</label>
-        <input type="number" id="empCount" value="5" min="1">
-      </div>
-      <div>
-        <label>Average hourly wage (USD)</label>
-        <input type="number" id="hourlyWage" value="25" min="1">
-      </div>
-      <div>
-        <label>Hours saved per employee per week</label>
-        <input type="number" id="hoursSaved" value="8" min="0">
-      </div>
-      <div>
-        <label>Monthly cost savings from AI (USD)</label>
-        <input type="number" id="costSavings" value="2000" min="0">
-      </div>
-      <div>
-        <label>Estimated monthly mistakes prevented ($)</label>
-        <input type="number" id="mistakesPrevented" value="1500" min="0">
-      </div>
-      <div>
-        <label>Estimated new monthly revenue enabled ($)</label>
-        <input type="number" id="newRevenue" value="3000" min="0">
-      </div>
+      <div><label>Number of employees affected</label><input type="number" id="empCount" value="5" min="1"></div>
+      <div><label>Average hourly wage (USD)</label><input type="number" id="hourlyWage" value="25" min="1"></div>
+      <div><label>Hours saved per employee per week</label><input type="number" id="hoursSaved" value="8" min="0"></div>
+      <div><label>Monthly cost savings from AI (USD)</label><input type="number" id="costSavings" value="2000" min="0"></div>
+      <div><label>Monthly mistakes prevented ($)</label><input type="number" id="mistakesPrevented" value="1500" min="0"></div>
+      <div><label>New monthly revenue enabled ($)</label><input type="number" id="newRevenue" value="3000" min="0"></div>
     </div>
-
-    <button class="calc-btn" onclick="calculateROI()">Calculate My ROI →</button>
-
-    <div class="result-box" id="roiResult">
-      <div class="result-row">
-        <span class="result-label">Layer 1 — Time Saved (annualized)</span>
-        <span class="result-value" id="r1">—</span>
-      </div>
-      <div class="result-row">
-        <span class="result-label">Layer 2 — Direct Cost Savings (annualized)</span>
-        <span class="result-value" id="r2">—</span>
-      </div>
-      <div class="result-row">
-        <span class="result-label">Layer 3 — Pain Escaped (mistakes prevented)</span>
-        <span class="result-value" id="r3">—</span>
-      </div>
-      <div class="result-row">
-        <span class="result-label">Layer 4 — Opportunity Unlocked (new revenue)</span>
-        <span class="result-value" id="r4">—</span>
-      </div>
-      <div class="result-total">
-        <div class="total-label">Total Year-1 Value</div>
-        <div class="total-value" id="totalROI">—</div>
-      </div>
-      <p style="font-size:0.8rem;color:#0369a1;margin-top:0.75rem;text-align:center">Recommended implementation fee: 10–20% of total value = <strong id="recFee">—</strong></p>
+    <button class="calc-btn" onclick="calculateROI()">Calculate ROI</button>
+    <div class="result-box" id="roiResult" style="display:none">
+      <div class="result-row"><span class="result-label">Layer 1 - Time Saved (annual)</span><span class="result-value" id="r1">-</span></div>
+      <div class="result-row"><span class="result-label">Layer 2 - Cost Savings (annual)</span><span class="result-value" id="r2">-</span></div>
+      <div class="result-row"><span class="result-label">Layer 3 - Mistakes Prevented (annual)</span><span class="result-value" id="r3">-</span></div>
+      <div class="result-row"><span class="result-label">Layer 4 - New Revenue (annual)</span><span class="result-value" id="r4">-</span></div>
+      <div class="result-total"><div class="total-label">Total Year-1 Value</div><div class="total-value" id="totalROI">-</div></div>
+      <p style="font-size:0.8rem;color:#0369a1;margin-top:0.75rem;text-align:center">Recommended fee: 10-20% of total value = <strong id="recFee">-</strong></p>
     </div>
   </div>
 
   <!-- READINESS SCORE -->
   <div class="tool-panel" id="readiness">
-    <h3> AI Readiness Assessment</h3>
-    <p class="tool-desc">Score your business's readiness for AI implementation. Answer 6 quick questions to get your AI Readiness Score and a personalized action plan.</p>
-
-    <div class="question">
-      <p>1. How much of your team's work is repetitive and process-driven?</p>
-      <div class="options">
-        <div class="opt" onclick="selectOpt(this, 'rep', 1)">Under 20%</div>
-        <div class="opt" onclick="selectOpt(this, 'rep', 2)">20–40%</div>
-        <div class="opt" onclick="selectOpt(this, 'rep', 3)">40–60%</div>
-        <div class="opt" onclick="selectOpt(this, 'rep', 4)">60–80%</div>
-        <div class="opt" onclick="selectOpt(this, 'rep', 5)">Over 80%</div>
-      </div>
-    </div>
-
-    <div class="question">
-      <p>2. Do you have digital records of your business data (documents, CRM, spreadsheets)?</p>
-      <div class="options">
-        <div class="opt" onclick="selectOpt(this, 'data', 1)">Mostly paper</div>
-        <div class="opt" onclick="selectOpt(this, 'data', 2)">Mixed</div>
-        <div class="opt" onclick="selectOpt(this, 'data', 3)">Mostly digital</div>
-        <div class="opt" onclick="selectOpt(this, 'data', 5)">Fully digital</div>
-      </div>
-    </div>
-
-    <div class="question">
-      <p>3. How would you describe your team's comfort with new technology?</p>
-      <div class="options">
-        <div class="opt" onclick="selectOpt(this, 'tech', 1)">Resistant</div>
-        <div class="opt" onclick="selectOpt(this, 'tech', 2)">Cautious</div>
-        <div class="opt" onclick="selectOpt(this, 'tech', 3)">Open</div>
-        <div class="opt" onclick="selectOpt(this, 'tech', 5)">Enthusiastic</div>
-      </div>
-    </div>
-
-    <div class="question">
-      <p>4. What is your monthly budget for AI tools and implementation?</p>
-      <div class="options">
-        <div class="opt" onclick="selectOpt(this, 'budget', 1)">Under $500</div>
-        <div class="opt" onclick="selectOpt(this, 'budget', 2)">$500–$2K</div>
-        <div class="opt" onclick="selectOpt(this, 'budget', 4)">$2K–$10K</div>
-        <div class="opt" onclick="selectOpt(this, 'budget', 5)">$10K+</div>
-      </div>
-    </div>
-
-    <div class="question">
-      <p>5. Do you have a clear business problem you want AI to solve?</p>
-      <div class="options">
-        <div class="opt" onclick="selectOpt(this, 'problem', 1)">Not really</div>
-        <div class="opt" onclick="selectOpt(this, 'problem', 3)">Somewhat</div>
-        <div class="opt" onclick="selectOpt(this, 'problem', 5)">Yes, clearly defined</div>
-      </div>
-    </div>
-
-    <div class="question">
-      <p>6. Have you used any AI tools (ChatGPT, Claude, Copilot) in your business?</p>
-      <div class="options">
-        <div class="opt" onclick="selectOpt(this, 'exp', 1)">Never</div>
-        <div class="opt" onclick="selectOpt(this, 'exp', 2)">Occasionally</div>
-        <div class="opt" onclick="selectOpt(this, 'exp', 4)">Regularly</div>
-        <div class="opt" onclick="selectOpt(this, 'exp', 5)">Extensively</div>
-      </div>
-    </div>
-
-    <button class="calc-btn" onclick="calcReadiness()">Get My AI Readiness Score →</button>
-
-    <div class="score-display" id="readinessResult">
-      <div style="text-align:center;margin:1rem 0">
-        <div style="font-size:2.5rem;font-weight:800;color:#0f172a" id="readinessScore">—</div>
-        <div style="font-size:0.85rem;color:#64748b">AI Readiness Score</div>
-      </div>
+    <h3>AI Readiness Assessment</h3>
+    <p class="tool-desc">Score your business readiness for AI in 6 questions. Get a personalized action plan and readiness score.</p>
+    <div class="question"><p>1. How much of your team's work is repetitive?</p><div class="options"><div class="opt" onclick="selectOpt(this,'rep',1)">Under 20%</div><div class="opt" onclick="selectOpt(this,'rep',2)">20-40%</div><div class="opt" onclick="selectOpt(this,'rep',3)">40-60%</div><div class="opt" onclick="selectOpt(this,'rep',4)">60-80%</div><div class="opt" onclick="selectOpt(this,'rep',5)">Over 80%</div></div></div>
+    <div class="question"><p>2. Is your business data digital?</p><div class="options"><div class="opt" onclick="selectOpt(this,'data',1)">Mostly paper</div><div class="opt" onclick="selectOpt(this,'data',2)">Mixed</div><div class="opt" onclick="selectOpt(this,'data',3)">Mostly digital</div><div class="opt" onclick="selectOpt(this,'data',5)">Fully digital</div></div></div>
+    <div class="question"><p>3. How does your team handle new technology?</p><div class="options"><div class="opt" onclick="selectOpt(this,'tech',1)">Resistant</div><div class="opt" onclick="selectOpt(this,'tech',2)">Cautious</div><div class="opt" onclick="selectOpt(this,'tech',3)">Open</div><div class="opt" onclick="selectOpt(this,'tech',5)">Enthusiastic</div></div></div>
+    <div class="question"><p>4. Monthly budget for AI tools?</p><div class="options"><div class="opt" onclick="selectOpt(this,'budget',1)">Under $500</div><div class="opt" onclick="selectOpt(this,'budget',2)">$500-$2K</div><div class="opt" onclick="selectOpt(this,'budget',4)">$2K-$10K</div><div class="opt" onclick="selectOpt(this,'budget',5)">$10K+</div></div></div>
+    <div class="question"><p>5. Do you have a clear problem AI should solve?</p><div class="options"><div class="opt" onclick="selectOpt(this,'problem',1)">Not really</div><div class="opt" onclick="selectOpt(this,'problem',3)">Somewhat</div><div class="opt" onclick="selectOpt(this,'problem',5)">Yes, clearly</div></div></div>
+    <div class="question"><p>6. Have you used AI tools before?</p><div class="options"><div class="opt" onclick="selectOpt(this,'exp',1)">Never</div><div class="opt" onclick="selectOpt(this,'exp',2)">Occasionally</div><div class="opt" onclick="selectOpt(this,'exp',4)">Regularly</div><div class="opt" onclick="selectOpt(this,'exp',5)">Extensively</div></div></div>
+    <button class="calc-btn" onclick="calcReadiness()">Get My Readiness Score</button>
+    <div id="readinessResult" style="display:none;margin-top:1.5rem">
+      <div style="text-align:center;margin:1rem 0"><div style="font-size:2.5rem;font-weight:800;color:#0f172a" id="readinessScore">-</div><div style="font-size:0.85rem;color:#64748b">AI Readiness Score</div></div>
       <div class="score-meter"><div class="score-bar" id="readinessBar"></div></div>
       <p id="readinessVerdict" style="font-size:0.92rem;line-height:1.7;color:#374151;margin-top:0.75rem"></p>
-      <p style="font-size:0.85rem;color:#2563eb;font-weight:600;margin-top:1rem">→ <a href="https://verifiedaiconsultants.com" style="color:#2563eb">Find an AI consultant</a> to help implement your first AI system.</p>
+      <p style="font-size:0.85rem;color:#2563eb;font-weight:600;margin-top:1rem">Find an <a href="https://verifiedaiconsultants.com" style="color:#2563eb">AI consultant</a> to help implement your first AI system.</p>
     </div>
   </div>
 
   <!-- OPPORTUNITY AUDIT -->
   <div class="tool-panel" id="audit">
-    <h3> AI Opportunity Audit</h3>
-    <p class="tool-desc">Identify the top AI opportunities in your business. Select which tasks your team does regularly — we'll show you where AI can have the biggest impact.</p>
-
+    <h3>AI Opportunity Audit</h3>
+    <p class="tool-desc">Select which tasks your team does regularly. See where AI can have the biggest impact and estimated monthly savings.</p>
     <p style="font-size:0.9rem;font-weight:600;color:#374151;margin-bottom:0.75rem">Select all tasks your team does regularly:</p>
-
-    <div id="taskList" style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;margin-bottom:1.5rem">
-    </div>
-
-    <button class="calc-btn" onclick="calcOpportunities()">Show My AI Opportunities →</button>
-
-    <div class="result-box" id="auditResult" style="margin-top:1.5rem">
+    <div id="taskList" style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;margin-bottom:1.5rem"></div>
+    <button class="calc-btn" onclick="calcOpportunities()">Show My AI Opportunities</button>
+    <div class="result-box" id="auditResult" style="display:none;margin-top:1.5rem">
       <h4 style="font-size:0.95rem;font-weight:700;color:#0f172a;margin-bottom:1rem">Your Top AI Opportunities:</h4>
       <div id="opportunityList"></div>
     </div>
+  </div>
+
+  <!-- USE CASE GENERATOR -->
+  <div class="tool-panel" id="usecase">
+    <h3>AI Use Case Generator</h3>
+    <p class="tool-desc">Answer 5 questions about your business and get a personalized list of AI use cases ranked by impact. Built for discovery calls — show clients exactly where AI fits their operation.</p>
+    <label>1. What industry are you in?</label>
+    <select id="uc_industry">
+      <option value="">Select your industry...</option>
+      <option value="retail">Retail / E-commerce</option>
+      <option value="professional">Professional Services (law, accounting, consulting)</option>
+      <option value="healthcare">Healthcare / Medical</option>
+      <option value="manufacturing">Manufacturing / Distribution</option>
+      <option value="realestate">Real Estate</option>
+      <option value="hospitality">Hospitality / Food & Beverage</option>
+      <option value="construction">Construction / Trades</option>
+      <option value="education">Education / Training</option>
+      <option value="finance">Finance / Insurance</option>
+      <option value="other">Other</option>
+    </select>
+    <label>2. How many employees do you have?</label>
+    <select id="uc_size">
+      <option value="solo">Just me (solopreneur)</option>
+      <option value="small">2-10 employees</option>
+      <option value="medium">11-50 employees</option>
+      <option value="large">51-200 employees</option>
+      <option value="enterprise">200+ employees</option>
+    </select>
+    <label>3. Biggest operational challenge?</label>
+    <select id="uc_challenge">
+      <option value="time">Not enough time — team is overwhelmed</option>
+      <option value="cost">Too expensive to hire more people</option>
+      <option value="quality">Inconsistent quality or errors</option>
+      <option value="growth">Can't scale without adding headcount</option>
+      <option value="customer">Customer service too slow</option>
+      <option value="admin">Too much admin work</option>
+      <option value="data">Can't make sense of our data</option>
+    </select>
+    <label>4. Which tasks are most repetitive? (select all that apply)</label>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.4rem;margin-top:0.35rem" id="uc_tasks">
+      <label style="display:flex;align-items:center;gap:0.4rem;font-size:0.85rem;cursor:pointer;padding:0.4rem;background:#f8fafc;border:1px solid #e2e8f0;border-radius:6px"><input type="checkbox" value="email"> Email responses</label>
+      <label style="display:flex;align-items:center;gap:0.4rem;font-size:0.85rem;cursor:pointer;padding:0.4rem;background:#f8fafc;border:1px solid #e2e8f0;border-radius:6px"><input type="checkbox" value="reports"> Reports & summaries</label>
+      <label style="display:flex;align-items:center;gap:0.4rem;font-size:0.85rem;cursor:pointer;padding:0.4rem;background:#f8fafc;border:1px solid #e2e8f0;border-radius:6px"><input type="checkbox" value="scheduling"> Scheduling</label>
+      <label style="display:flex;align-items:center;gap:0.4rem;font-size:0.85rem;cursor:pointer;padding:0.4rem;background:#f8fafc;border:1px solid #e2e8f0;border-radius:6px"><input type="checkbox" value="dataentry"> Data entry</label>
+      <label style="display:flex;align-items:center;gap:0.4rem;font-size:0.85rem;cursor:pointer;padding:0.4rem;background:#f8fafc;border:1px solid #e2e8f0;border-radius:6px"><input type="checkbox" value="quotes"> Quotes / proposals</label>
+      <label style="display:flex;align-items:center;gap:0.4rem;font-size:0.85rem;cursor:pointer;padding:0.4rem;background:#f8fafc;border:1px solid #e2e8f0;border-radius:6px"><input type="checkbox" value="customer"> Customer support</label>
+      <label style="display:flex;align-items:center;gap:0.4rem;font-size:0.85rem;cursor:pointer;padding:0.4rem;background:#f8fafc;border:1px solid #e2e8f0;border-radius:6px"><input type="checkbox" value="invoicing"> Invoicing / billing</label>
+      <label style="display:flex;align-items:center;gap:0.4rem;font-size:0.85rem;cursor:pointer;padding:0.4rem;background:#f8fafc;border:1px solid #e2e8f0;border-radius:6px"><input type="checkbox" value="content"> Content / marketing</label>
+    </div>
+    <label>5. Monthly budget for AI tools?</label>
+    <select id="uc_budget">
+      <option value="free">Free only</option>
+      <option value="low">Under $200/month</option>
+      <option value="mid">$200-$1,000/month</option>
+      <option value="high">$1,000+/month</option>
+    </select>
+    <button class="calc-btn" onclick="generateUseCases()">Generate My AI Use Cases</button>
+    <div class="result-box" id="ucResult" style="display:none;margin-top:1.5rem">
+      <h4 style="font-size:0.95rem;font-weight:700;margin-bottom:1rem">Your Personalized AI Use Cases:</h4>
+      <div id="ucList"></div>
+      <p style="font-size:0.85rem;color:#2563eb;margin-top:1.25rem;font-weight:600">Ready to implement? <a href="https://verifiedaiconsultants.com" style="color:#2563eb">Find a verified AI consultant</a></p>
+    </div>
+  </div>
+
+  <!-- 90-DAY PLANNER -->
+  <div class="tool-panel" id="planner">
+    <h3>AI 90-Day Implementation Planner</h3>
+    <p class="tool-desc">Get a concrete 90-day roadmap customized to your readiness level, goal, and biggest obstacle. No vague advice — specific milestones and actions.</p>
+    <label>Your current AI readiness level:</label>
+    <select id="pl_level">
+      <option value="beginner">Beginner — Never used AI in the business</option>
+      <option value="exploring">Exploring — Used ChatGPT occasionally</option>
+      <option value="testing">Testing — Running a few AI experiments</option>
+      <option value="implementing">Implementing — Active AI projects underway</option>
+      <option value="scaling">Scaling — AI is working, want to expand</option>
+    </select>
+    <label>Primary goal for AI:</label>
+    <select id="pl_goal">
+      <option value="save_time">Save time — reduce manual work</option>
+      <option value="cut_costs">Cut costs — reduce headcount or expenses</option>
+      <option value="grow_revenue">Grow revenue — more clients, more output</option>
+      <option value="improve_quality">Improve quality — fewer errors, better service</option>
+      <option value="scale">Scale — grow without adding staff</option>
+    </select>
+    <label>Biggest obstacle right now:</label>
+    <select id="pl_obstacle">
+      <option value="knowledge">Don't know where to start</option>
+      <option value="budget">Limited budget</option>
+      <option value="team">Team resistance or lack of skills</option>
+      <option value="data">Data not organized or accessible</option>
+      <option value="time">No time to experiment</option>
+    </select>
+    <button class="calc-btn" onclick="generatePlan()">Build My 90-Day Plan</button>
+    <div id="planResult" style="display:none;margin-top:1.5rem"><div id="planContent"></div></div>
+  </div>
+
+  <!-- RISK ASSESSMENT -->
+  <div class="tool-panel" id="risk">
+    <h3>AI Risk Assessment</h3>
+    <p class="tool-desc">Before investing in AI, understand your risks. Score your exposure across data privacy, compliance, team adoption, and implementation complexity — with mitigation recommendations for each.</p>
+    <p style="font-size:0.88rem;font-weight:700;color:#374151;margin-bottom:1rem">Rate each risk factor (1 = low risk, 5 = high risk):</p>
+    <div id="riskFactors"></div>
+    <button class="calc-btn" onclick="calcRisk()" style="margin-top:1rem">Calculate My Risk Score</button>
+    <div class="result-box" id="riskResult" style="display:none;margin-top:1.5rem"><div id="riskContent"></div></div>
+  </div>
+
+  <!-- SKILLS GAP -->
+  <div class="tool-panel" id="skills">
+    <h3>AI Skills Gap Identifier</h3>
+    <p class="tool-desc">Find exactly where your team's AI capabilities fall short. Get a clear recommendation for each gap — train, hire, or outsource.</p>
+    <p style="font-size:0.88rem;font-weight:700;color:#374151;margin-bottom:1rem">Rate your team's current capability in each area (1 = none, 5 = strong):</p>
+    <div id="skillsGrid" style="display:grid;grid-template-columns:1fr 1fr;gap:1rem"></div>
+    <button class="calc-btn" onclick="calcSkills()" style="margin-top:1.5rem">Identify My Skills Gaps</button>
+    <div class="result-box" id="skillsResult" style="display:none;margin-top:1.5rem"><div id="skillsContent"></div></div>
+  </div>
+
+  <!-- VENDOR SCORECARD -->
+  <div class="tool-panel" id="vendor">
+    <h3>AI Vendor Comparison Scorecard</h3>
+    <p class="tool-desc">Comparing two AI tools or vendors? Score them across 10 criteria and get a data-driven recommendation. Built for consultant-client decision meetings — print or share the results.</p>
+    <div style="display:grid;grid-template-columns:2fr 1fr 1fr;gap:0.5rem;margin-bottom:1rem;align-items:center">
+      <div style="font-size:0.82rem;font-weight:700;color:#64748b">Criteria (score 1-10)</div>
+      <input type="text" id="vendor1name" placeholder="Vendor A" style="font-weight:700;text-align:center">
+      <input type="text" id="vendor2name" placeholder="Vendor B" style="font-weight:700;text-align:center">
+    </div>
+    <div id="vendorCriteria"></div>
+    <button class="calc-btn" onclick="calcVendor()" style="margin-top:1rem">Compare Vendors</button>
+    <div class="result-box" id="vendorResult" style="display:none;margin-top:1.5rem"><div id="vendorContent"></div></div>
   </div>
 
   <div class="cta-bar">
     <h3>Ready to Implement AI in Your Business?</h3>
     <p>Connect with a verified AI consultant who specializes in your industry and budget.</p>
     <a href="https://verifiedaiconsultants.com">Find a Verified Consultant</a>
-    <a href="https://verifiedaiconsultants.com/#list-yourself" class="alt">I'm a Consultant — List Me</a>
+    <a href="https://verifiedaiconsultants.com/#list-yourself" class="alt">I'm a Consultant</a>
   </div>
 </main>
 
 <footer>
-  © 2026 AIOSFinder.com — Free AI tools for consultants and businesses
-  <span style="display:block;margin-top:0.35rem"><a href="/privacy.html">Privacy Policy</a> · <a href="/terms.html">Terms</a> · <a href="https://verifiedaiconsultants.com">Find a Consultant</a></span>
-  <p style="margin-top:0.5rem">A service of <a href="https://warrenbg.com" style="color:#f59e0b;font-weight:700;">Warren Business Group</a> &mdash; Building AI-powered businesses.</p>
+  <p>2026 AIOSFinder.com - Free AI tools for consultants and businesses</p>
+  <p style="margin-top:0.35rem"><a href="/privacy.html">Privacy Policy</a> - <a href="/terms.html">Terms</a> - <a href="https://verifiedaiconsultants.com">Find a Consultant</a></p>
+  <p style="margin-top:0.5rem">A service of <a href="https://warrenbg.com" style="color:#f59e0b;font-weight:700;">Warren Business Group</a> - Building AI-powered businesses.</p>
 </footer>
 
 <script>
-// TABS
+// TAB SWITCHER
 function switchTab(id, btn) {
   document.querySelectorAll('.tool-panel').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
@@ -273,93 +317,195 @@ function switchTab(id, btn) {
 
 // ROI CALCULATOR
 function calculateROI() {
-  const emp = parseFloat(document.getElementById('empCount').value)  0;
-  const wage = parseFloat(document.getElementById('hourlyWage').value)  0;
-  const hours = parseFloat(document.getElementById('hoursSaved').value)  0;
-  const cost = parseFloat(document.getElementById('costSavings').value)  0;
-  const mistakes = parseFloat(document.getElementById('mistakesPrevented').value)  0;
-  const revenue = parseFloat(document.getElementById('newRevenue').value)  0;
-
-  const r1 = emp * hours * wage * 52;
-  const r2 = cost * 12;
-  const r3 = mistakes * 12;
-  const r4 = revenue * 12;
-  const total = r1 + r2 + r3 + r4;
-  const fee = [total * 0.10, total * 0.20];
-
-  const fmt = n => '$' + Math.round(n).toLocaleString();
-  document.getElementById('r1').textContent = fmt(r1);
-  document.getElementById('r2').textContent = fmt(r2);
-  document.getElementById('r3').textContent = fmt(r3);
-  document.getElementById('r4').textContent = fmt(r4);
-  document.getElementById('totalROI').textContent = fmt(total);
-  document.getElementById('recFee').textContent = fmt(fee[0]) + ' – ' + fmt(fee[1]);
-  document.getElementById('roiResult').classList.add('show');
+  const emp = parseFloat(document.getElementById('empCount').value)||0;
+  const wage = parseFloat(document.getElementById('hourlyWage').value)||0;
+  const hours = parseFloat(document.getElementById('hoursSaved').value)||0;
+  const cost = parseFloat(document.getElementById('costSavings').value)||0;
+  const mistakes = parseFloat(document.getElementById('mistakesPrevented').value)||0;
+  const revenue = parseFloat(document.getElementById('newRevenue').value)||0;
+  const r1=emp*hours*wage*52, r2=cost*12, r3=mistakes*12, r4=revenue*12;
+  const total=r1+r2+r3+r4;
+  const fmt=n=>'$'+Math.round(n).toLocaleString();
+  document.getElementById('r1').textContent=fmt(r1);
+  document.getElementById('r2').textContent=fmt(r2);
+  document.getElementById('r3').textContent=fmt(r3);
+  document.getElementById('r4').textContent=fmt(r4);
+  document.getElementById('totalROI').textContent=fmt(total);
+  document.getElementById('recFee').textContent=fmt(total*0.1)+' - '+fmt(total*0.2);
+  document.getElementById('roiResult').style.display='block';
 }
 
 // READINESS
 const readinessAnswers = {};
 function selectOpt(el, key, val) {
-  el.closest('.options').querySelectorAll('.opt').forEach(o => o.classList.remove('selected'));
+  el.closest('.options').querySelectorAll('.opt').forEach(o=>o.classList.remove('selected'));
   el.classList.add('selected');
-  readinessAnswers[key] = val;
+  readinessAnswers[key]=val;
 }
-
 function calcReadiness() {
-  const keys = ['rep','data','tech','budget','problem','exp'];
-  const total = keys.reduce((sum, k) => sum + (readinessAnswers[k]  0), 0);
-  const max = 30;
-  const pct = Math.round((total / max) * 100);
-  const score = Math.round((total / max) * 10 * 10) / 10;
-
-  document.getElementById('readinessScore').textContent = score + ' / 10';
-  const bar = document.getElementById('readinessBar');
-  bar.style.width = pct + '%';
-  bar.style.background = pct >= 70 ? '#059669' : pct >= 40 ? '#f59e0b' : '#ef4444';
-
-  let verdict;
-  if (pct >= 70) verdict = 'Your business is well-positioned for AI implementation. You have the data, budget, and team culture to see results quickly. A skilled AIOS consultant could have your first system running within 30 days.';
-  else if (pct >= 40) verdict = 'Your business has solid foundations for AI but some gaps to address first. Focus on digitizing your data and identifying your highest-impact use case. A discovery audit with an AI consultant is a great next step.';
-  else verdict = 'Your business is in the early stages of AI readiness. Start small — pick one repetitive task and automate it with a simple AI tool. Build confidence before investing in a full AIOS deployment.';
-
-  document.getElementById('readinessVerdict').textContent = verdict;
-  document.getElementById('readinessResult').classList.add('show');
+  const keys=['rep','data','tech','budget','problem','exp'];
+  const total=keys.reduce((s,k)=>s+(readinessAnswers[k]||0),0);
+  const pct=Math.round((total/30)*100);
+  const score=Math.round((total/30)*100)/10;
+  document.getElementById('readinessScore').textContent=score+' / 10';
+  const bar=document.getElementById('readinessBar');
+  bar.style.width=pct+'%';
+  bar.style.background=pct>=70?'#059669':pct>=40?'#f59e0b':'#ef4444';
+  const verdicts=['Your business has foundational work to do before AI will stick. Start small: pick one repetitive task, automate it, build confidence.','Good foundations but gaps remain. Digitize your data, identify one clear use case, and run a pilot before full deployment.','Well-positioned for AI. A skilled AIOS consultant could have your first system running within 30 days.'];
+  document.getElementById('readinessVerdict').textContent=verdicts[pct>=70?2:pct>=40?1:0];
+  document.getElementById('readinessResult').style.display='block';
 }
 
 // OPPORTUNITY AUDIT
-const tasks = [
-  { id: 'email', label: 'Answering repetitive emails', opp: 'AI Email Responder', saving: '$800–$2,000/mo' },
-  { id: 'reports', label: 'Creating reports or summaries', opp: 'Auto-Report Generator', saving: '$500–$1,500/mo' },
-  { id: 'quotes', label: 'Writing quotes or proposals', opp: 'AI Proposal Builder', saving: '$1,000–$3,000/mo' },
-  { id: 'scheduling', label: 'Scheduling and calendar management', opp: 'AI Scheduling Assistant', saving: '$300–$800/mo' },
-  { id: 'customer', label: 'Answering customer questions (chat/phone)', opp: 'AI Customer Service Bot', saving: '$1,500–$4,000/mo' },
-  { id: 'data', label: 'Data entry or spreadsheet work', opp: 'AI Data Entry Automation', saving: '$600–$1,800/mo' },
-  { id: 'social', label: 'Writing social media or marketing content', opp: 'AI Content Generator', saving: '$500–$1,200/mo' },
-  { id: 'invoicing', label: 'Invoice processing or bookkeeping', opp: 'AI Finance Automation', saving: '$400–$1,000/mo' },
-  { id: 'onboarding', label: 'Client or employee onboarding', opp: 'AI Onboarding System', saving: '$800–$2,500/mo' },
-  { id: 'research', label: 'Market or competitor research', opp: 'AI Research Agent', saving: '$400–$1,200/mo' },
+const tasks=[
+  {id:'email',label:'Answering repetitive emails',opp:'AI Email Responder',saving:'$800-$2,000/mo'},
+  {id:'reports',label:'Creating reports or summaries',opp:'Auto-Report Generator',saving:'$500-$1,500/mo'},
+  {id:'quotes',label:'Writing quotes or proposals',opp:'AI Proposal Builder',saving:'$1,000-$3,000/mo'},
+  {id:'scheduling',label:'Scheduling and calendar management',opp:'AI Scheduling Assistant',saving:'$300-$800/mo'},
+  {id:'customer',label:'Answering customer questions',opp:'AI Customer Service Bot',saving:'$1,500-$4,000/mo'},
+  {id:'data',label:'Data entry or spreadsheet work',opp:'AI Data Entry Automation',saving:'$600-$1,800/mo'},
+  {id:'social',label:'Writing social media or marketing content',opp:'AI Content Generator',saving:'$500-$1,200/mo'},
+  {id:'invoicing',label:'Invoice processing or bookkeeping',opp:'AI Finance Automation',saving:'$400-$1,000/mo'},
+  {id:'onboarding',label:'Client or employee onboarding',opp:'AI Onboarding System',saving:'$800-$2,500/mo'},
+  {id:'research',label:'Market or competitor research',opp:'AI Research Agent',saving:'$400-$1,200/mo'},
 ];
-
-const taskList = document.getElementById('taskList');
-tasks.forEach(t => {
-  const div = document.createElement('div');
-  div.innerHTML = `<label style="display:flex;align-items:center;gap:0.5rem;font-size:0.88rem;cursor:pointer;padding:0.5rem;background:white;border:1.5px solid #e2e8f0;border-radius:8px">
-    <input type="checkbox" value="${t.id}" style="width:auto"> ${t.label}
-  </label>`;
+const taskList=document.getElementById('taskList');
+tasks.forEach(t=>{
+  const div=document.createElement('div');
+  div.innerHTML=`<label style="display:flex;align-items:center;gap:0.5rem;font-size:0.88rem;cursor:pointer;padding:0.5rem;background:white;border:1.5px solid #e2e8f0;border-radius:8px"><input type="checkbox" value="${t.id}" style="width:auto"> ${t.label}</label>`;
   taskList.appendChild(div);
 });
-
 function calcOpportunities() {
-  const checked = [...document.querySelectorAll('#taskList input:checked')].map(i => i.value);
-  if (!checked.length) { alert('Please select at least one task.'); return; }
-  const found = tasks.filter(t => checked.includes(t.id));
-  const list = document.getElementById('opportunityList');
-  list.innerHTML = found.map(t => `
-    <div style="display:flex;justify-content:space-between;align-items:center;padding:0.6rem 0;border-bottom:1px solid #e0f2fe;font-size:0.88rem">
-      <div><strong style="color:#0f172a">${t.opp}</strong><br><span style="color:#64748b">${t.label}</span></div>
-      <div style="text-align:right;font-weight:700;color:#059669;white-space:nowrap;margin-left:1rem">${t.saving}</div>
-    </div>`).join('');
-  document.getElementById('auditResult').classList.add('show');
+  const checked=[...document.querySelectorAll('#taskList input:checked')].map(i=>i.value);
+  if(!checked.length){alert('Please select at least one task.');return;}
+  const found=tasks.filter(t=>checked.includes(t.id));
+  document.getElementById('opportunityList').innerHTML=found.map(t=>`<div style="display:flex;justify-content:space-between;align-items:center;padding:0.6rem 0;border-bottom:1px solid #e0f2fe;font-size:0.88rem"><div><strong>${t.opp}</strong><br><span style="color:#64748b">${t.label}</span></div><div style="font-weight:700;color:#059669;white-space:nowrap;margin-left:1rem">${t.saving}</div></div>`).join('');
+  document.getElementById('auditResult').style.display='block';
+}
+
+// USE CASE GENERATOR
+const useCaseDB = {
+  retail: {email:'AI-powered customer inquiry responder — answers product questions, shipping queries, returns 24/7',reports:'Inventory demand forecasting — predicts stock needs based on sales patterns',quotes:'Personalized discount and offer generator for returning customers',customer:'AI chatbot for order tracking and customer service',content:'Product description generator — write compelling listings in seconds'},
+  professional: {email:'Client communication assistant — drafts responses to common client questions',reports:'AI report and brief generator — turn notes into polished documents',quotes:'Proposal generator — create customized proposals from templates',scheduling:'AI calendar and meeting scheduler with conflict detection',data:'Contract review assistant — flag key clauses and missing terms'},
+  healthcare: {email:'Patient inquiry responder for appointment and general questions',reports:'Clinical note summarizer — turn lengthy notes into structured summaries',scheduling:'Appointment scheduling and reminder automation',data:'Patient intake form processor and data organizer',customer:'Post-visit follow-up automation and satisfaction tracking'},
+  manufacturing: {email:'Supplier communication automation',reports:'Production report generator and anomaly detector',data:'Quality control data analyzer — spot patterns in defect data',invoicing:'Purchase order and invoice processing automation',research:'Supply chain risk monitor and alternative supplier finder'},
+  realestate: {email:'Lead response automation — reply to inquiries within seconds',reports:'Market analysis report generator',quotes:'Property listing description writer',customer:'AI virtual assistant for property inquiries',scheduling:'Showing scheduler and follow-up automation'},
+  other: {email:'Email response automation for common inquiries',reports:'Report and summary generator',quotes:'Proposal and quote builder',customer:'Customer service chatbot',content:'Content and marketing copy generator'},
+};
+function generateUseCases() {
+  const industry=document.getElementById('uc_industry').value||'other';
+  const challenge=document.getElementById('uc_challenge').value;
+  const checked=[...document.querySelectorAll('#uc_tasks input:checked')].map(i=>i.value);
+  const db=useCaseDB[industry]||useCaseDB.other;
+  let items=[];
+  if(checked.length){checked.forEach(k=>{if(db[k])items.push({key:k,desc:db[k]});});}
+  if(items.length<3){Object.entries(db).slice(0,5).forEach(([k,v])=>{if(!items.find(i=>i.key===k))items.push({key:k,desc:v});});}
+  items=items.slice(0,6);
+  document.getElementById('ucList').innerHTML=items.map((item,i)=>`<div class="opp-item"><div class="opp-title">${i+1}. ${item.desc.split(' — ')[0]||item.desc.substring(0,50)}</div><div class="opp-desc">${item.desc}</div></div>`).join('');
+  document.getElementById('ucResult').style.display='block';
+}
+
+// 90-DAY PLANNER
+const plans={
+  beginner:{
+    save_time:[['Days 1-30: Foundation',['Install ChatGPT or Claude — use it daily for 30 days','Identify your #1 most time-consuming repetitive task','Document exactly what that task involves step by step']],['Days 31-60: First Automation',['Build a simple prompt template for your top task','Test it with 5 real examples — refine until it works','Calculate time saved per week']],['Days 61-90: Expand',['Apply the same approach to 2-3 more tasks','Calculate your total monthly time savings','Decide if you need an AI consultant to go deeper']]],
+    cut_costs:[['Days 1-30: Audit',['List your top 5 labor costs by task','Document time spent on each','Research free AI tools for each category']],['Days 31-60: Pilot',['Implement free AI tool for highest-cost task','Measure output quality vs manual work','Calculate actual cost savings']],['Days 61-90: Commit',['Roll out to additional tasks if pilot succeeded','Calculate total monthly savings','Plan next investment tier']]]
+  },
+  scaling:{
+    save_time:[['Days 1-30: Audit Current Systems',['Document all current AI implementations','Identify bottlenecks and underperforming tools','Survey team on what they wish AI could do']],['Days 31-60: Expand Coverage',['Add AI to 2-3 new departments or workflows','Integrate AI tools with existing software stack','Train team leads on new AI capabilities']],['Days 61-90: Optimize & Measure',['A/B test AI approaches to find best performance','Calculate total productivity gains across all tools','Set targets for next quarter']]],
+    grow_revenue:[['Days 1-30: Revenue Mapping',['Map all revenue-generating activities','Identify where AI could increase output or close rate','Research AI tools for sales and marketing']],['Days 31-60: Sales AI Pilot',['Implement AI for lead qualification or proposal generation','Test AI-assisted follow-up sequences','Measure conversion rate changes']],['Days 61-90: Scale What Works',['Double down on proven revenue AI tools','Implement AI for customer retention','Set revenue targets for AI-assisted pipeline']]]
+  }
+};
+function generatePlan() {
+  const level=document.getElementById('pl_level').value;
+  const goal=document.getElementById('pl_goal').value;
+  const obstacle=document.getElementById('pl_obstacle').value;
+  const planKey=level==='scaling'||level==='implementing'?'scaling':'beginner';
+  const goalKey=goal.includes('revenue')?'grow_revenue':'save_time';
+  const phases=(plans[planKey]&&plans[planKey][goalKey])||plans.beginner.save_time;
+  const obstacleAdvice={knowledge:'Start with free tools only. No budget needed to begin. Use ChatGPT free tier for your first 30 days.',budget:'Focus on free AI tools first. ChatGPT free, Claude free tier, and open-source tools can get you started at zero cost.',team:'Involve one AI champion from your team early. Let them lead the pilot. Success spreads from within.',data:'Before automating, spend 2 weeks organizing your top 3 data sources into clean spreadsheets or documents.',time:'Block 30 minutes every Friday to work on your AI pilot. Small consistent progress beats sporadic big efforts.'};
+  document.getElementById('planContent').innerHTML=`<div style="background:#eff6ff;border-radius:8px;padding:1rem;margin-bottom:1rem;font-size:0.88rem;color:#1e40af"><strong>Addressing your obstacle (${obstacle.replace('_',' ')}):</strong> ${obstacleAdvice[obstacle]||''}</div>`+phases.map(([title,items])=>`<div class="plan-phase"><div class="plan-phase-title">${title}</div>${items.map(i=>`<div class="plan-item">${i}</div>`).join('')}</div>`).join('');
+  document.getElementById('planResult').style.display='block';
+}
+
+// RISK ASSESSMENT
+const riskFactors=[
+  {id:'privacy',label:'Data Privacy — How sensitive is the data AI will access?',mitigation:'Implement data access controls, use local AI models where possible, review vendor data policies.'},
+  {id:'compliance',label:'Regulatory Compliance — Are you in a regulated industry (health, finance, legal)?',mitigation:'Consult legal counsel before deploying AI in regulated workflows. Maintain human review for compliance-critical decisions.'},
+  {id:'accuracy',label:'Accuracy Risk — What happens if AI makes a mistake in your use case?',mitigation:'Always maintain human review for high-stakes outputs. Start with low-risk tasks and build trust gradually.'},
+  {id:'dependency',label:'Vendor Dependency — How locked-in will you be to one AI provider?',mitigation:'Choose tools with data export options. Avoid single-vendor lock-in by using open standards where possible.'},
+  {id:'team',label:'Team Adoption Risk — How likely is your team to resist or misuse AI tools?',mitigation:'Involve team in tool selection. Provide training. Start with one AI champion per department.'},
+  {id:'cost',label:'Cost Overrun Risk — Could AI costs spiral beyond your budget?',mitigation:'Set monthly spending caps in your AI tool dashboards. Review costs weekly for the first 3 months.'},
+];
+const riskContainer=document.getElementById('riskFactors');
+riskFactors.forEach(rf=>{
+  const div=document.createElement('div');
+  div.className='risk-item';
+  div.innerHTML=`<span class="risk-label">${rf.label}</span><input type="range" min="1" max="5" value="2" class="risk-slider" id="risk_${rf.id}" oninput="document.getElementById('rval_${rf.id}').textContent=this.value"><span class="risk-val" id="rval_${rf.id}">2</span>`;
+  riskContainer.appendChild(div);
+});
+function calcRisk() {
+  const scores=riskFactors.map(rf=>parseInt(document.getElementById('risk_'+rf.id).value));
+  const total=scores.reduce((a,b)=>a+b,0);
+  const avg=(total/scores.length).toFixed(1);
+  const maxScore=scores.reduce((max,s,i)=>s>scores[max]?i:max,0);
+  const color=avg>=4?'#ef4444':avg>=2.5?'#f59e0b':'#059669';
+  const verdict=avg>=4?'High Risk — AI implementation needs careful risk mitigation before proceeding.':avg>=2.5?'Moderate Risk — Proceed with caution. Address the highest-risk areas first.':'Low Risk — Good conditions for AI implementation. Standard precautions apply.';
+  document.getElementById('riskContent').innerHTML=`<div style="text-align:center;margin-bottom:1rem"><div style="font-size:2rem;font-weight:800;color:${color}">${avg}/5.0</div><div style="font-size:0.85rem;color:#64748b">Average Risk Score</div></div><p style="font-size:0.9rem;color:#374151;margin-bottom:1rem">${verdict}</p><div style="background:#fff7ed;border-left:3px solid #f59e0b;padding:0.75rem;border-radius:0 8px 8px 0;font-size:0.88rem"><strong>Highest risk area:</strong> ${riskFactors[maxScore].label.split(' — ')[0]}<br><strong>Recommended action:</strong> ${riskFactors[maxScore].mitigation}</div>`;
+  document.getElementById('riskResult').style.display='block';
+}
+
+// SKILLS GAP
+const skillAreas=[
+  {id:'prompt',label:'Prompt Engineering',threshold:3,hire:'AI Consultant',train:'Take a free prompting course (promptingguide.ai)',outsource:'Hire a prompt engineer for specific projects'},
+  {id:'data',label:'Data Organization & Cleaning',threshold:3,hire:'Data Analyst',train:'Learn Excel/Google Sheets data cleaning',outsource:'Hire a virtual assistant for data prep'},
+  {id:'tools',label:'AI Tool Selection & Setup',threshold:3,hire:'AIOS Consultant',train:'Follow AI tool review channels (FutureTools)',outsource:'Hire an AIOS implementer for initial setup'},
+  {id:'integration',label:'Software Integration & APIs',threshold:2,hire:'Developer or no-code specialist',train:'Learn Zapier or Make.com basics',outsource:'Hire a no-code automation specialist'},
+  {id:'analysis',label:'Analyzing AI Output Quality',threshold:3,hire:'AI Quality Specialist',train:'Build an internal testing checklist',outsource:'Peer review by AI consultant'},
+  {id:'change',label:'Change Management & Team Training',threshold:3,hire:'HR or Change Manager',train:'Read "Switch" by Heath & Heath',outsource:'Hire an organizational change consultant'},
+];
+const skillsGrid=document.getElementById('skillsGrid');
+skillAreas.forEach(sa=>{
+  const div=document.createElement('div');
+  div.style.cssText='background:white;border:1px solid #e2e8f0;border-radius:8px;padding:0.75rem';
+  div.innerHTML=`<div style="font-size:0.85rem;font-weight:700;color:#1e293b;margin-bottom:0.5rem">${sa.label}</div><div style="display:flex;gap:0.3rem">${[1,2,3,4,5].map(v=>`<button onclick="setSkill('${sa.id}',${v},this)" style="flex:1;padding:0.35rem;border:1.5px solid #e2e8f0;border-radius:5px;cursor:pointer;font-size:0.8rem;font-weight:600;background:white;color:#64748b" id="sk_${sa.id}_${v}">${v}</button>`).join('')}</div>`;
+  skillsGrid.appendChild(div);
+});
+const skillScores={};
+function setSkill(id,val,btn){
+  skillScores[id]=val;
+  for(let i=1;i<=5;i++){const b=document.getElementById(`sk_${id}_${i}`);b.style.background=i<=val?'#2563eb':'white';b.style.color=i<=val?'white':'#64748b';b.style.borderColor=i<=val?'#2563eb':'#e2e8f0';}
+}
+function calcSkills(){
+  const gaps=skillAreas.filter(sa=>(skillScores[sa.id]||0)<sa.threshold);
+  if(!gaps.length){document.getElementById('skillsContent').innerHTML='<p style="color:#059669;font-weight:700">Your team has strong AI skills across all areas. You are well-positioned for AI implementation.</p>';document.getElementById('skillsResult').style.display='block';return;}
+  document.getElementById('skillsContent').innerHTML=`<p style="font-size:0.88rem;color:#374151;margin-bottom:1rem">Found <strong>${gaps.length} skills gap${gaps.length>1?'s':''}</strong> to address:</p>`+gaps.map(g=>`<div style="border:1px solid #e2e8f0;border-radius:8px;padding:0.75rem;margin-bottom:0.5rem"><div style="font-weight:700;font-size:0.9rem;color:#dc2626;margin-bottom:0.4rem">${g.label} — Current score: ${skillScores[g.id]||0}/5</div><div style="font-size:0.82rem;color:#374151"><strong>Train:</strong> ${g.train}<br><strong>Hire:</strong> ${g.hire}<br><strong>Outsource:</strong> ${g.outsource}</div></div>`).join('');
+  document.getElementById('skillsResult').style.display='block';
+}
+
+// VENDOR SCORECARD
+const vendorCrits=['Ease of use for non-technical staff','Integration with existing tools','Data privacy and security','Pricing and total cost','Quality of AI output','Reliability and uptime','Customer support quality','Scalability as business grows','Training and onboarding support','Contract flexibility and exit options'];
+const vendorContainer=document.getElementById('vendorCriteria');
+vendorCrits.forEach((c,i)=>{
+  const div=document.createElement('div');
+  div.className='vendor-row';
+  div.innerHTML=`<span class="vendor-crit">${c}</span><input type="number" min="1" max="10" placeholder="1-10" id="v1_${i}" style="text-align:center;padding:0.4rem"><input type="number" min="1" max="10" placeholder="1-10" id="v2_${i}" style="text-align:center;padding:0.4rem">`;
+  vendorContainer.appendChild(div);
+});
+function calcVendor(){
+  const n1=document.getElementById('vendor1name').value||'Vendor A';
+  const n2=document.getElementById('vendor2name').value||'Vendor B';
+  let s1=0,s2=0,count=0;
+  vendorCrits.forEach((_,i)=>{
+    const v1=parseInt(document.getElementById(`v1_${i}`).value)||0;
+    const v2=parseInt(document.getElementById(`v2_${i}`).value)||0;
+    s1+=v1;s2+=v2;if(v1||v2)count++;
+  });
+  if(!count){alert('Please score at least one criteria for both vendors.');return;}
+  const winner=s1>s2?n1:s2>s1?n2:'Tie';
+  const color=winner===n1?'#2563eb':winner===n2?'#059669':'#f59e0b';
+  document.getElementById('vendorContent').innerHTML=`<div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem"><div style="text-align:center;background:#f0f9ff;border-radius:8px;padding:1rem"><div style="font-size:1.5rem;font-weight:800;color:#2563eb">${s1}</div><div style="font-size:0.85rem;color:#64748b">${n1} Total Score</div></div><div style="text-align:center;background:#f0fdf4;border-radius:8px;padding:1rem"><div style="font-size:1.5rem;font-weight:800;color:#059669">${s2}</div><div style="font-size:0.85rem;color:#64748b">${n2} Total Score</div></div></div><div style="text-align:center;background:white;border:2px solid ${color};border-radius:10px;padding:1rem"><div style="font-size:0.82rem;color:#64748b;margin-bottom:0.25rem">Recommendation</div><div style="font-size:1.2rem;font-weight:800;color:${color}">${winner==='Tie'?'Too close to call — reassess priorities':winner+' is the stronger choice'}</div></div>`;
+  document.getElementById('vendorResult').style.display='block';
 }
 </script>
 </body>
