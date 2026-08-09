@@ -1,18 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://aiosfinder.com/</loc>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
-  </url>
-  <url>
-    <loc>https://aiosfinder.com/privacy.html</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://aiosfinder.com/terms.html</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
+  <url><loc>https://aiosfinder.com/</loc><changefreq>monthly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://aiosfinder.com/ai-roi-calculator/</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://aiosfinder.com/ai-readiness-assessment/</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://aiosfinder.com/ai-opportunity-audit/</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://aiosfinder.com/ai-use-case-generator/</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://aiosfinder.com/ai-90-day-plan/</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://aiosfinder.com/ai-risk-assessment/</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://aiosfinder.com/ai-skills-gap-analysis/</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://aiosfinder.com/ai-vendor-comparison/</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://aiosfinder.com/privacy.html</loc><changefreq>monthly</changefreq><priority>0.3</priority></url>
+  <url><loc>https://aiosfinder.com/terms.html</loc><changefreq>monthly</changefreq><priority>0.3</priority></url>
 </urlset>
